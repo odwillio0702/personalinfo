@@ -3,7 +3,6 @@ import telebot
 import threading
 import time
 from storage import load, save
-from scheduler import start_scheduler
 from keyboards import done_delay_keyboard
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
@@ -14,7 +13,9 @@ bot = telebot.TeleBot(BOT_TOKEN)
 data = load()
 temp = {}
 
-# Старт / создание напоминания
+# =======================
+# Создание напоминания
+# =======================
 @bot.message_handler(commands=['start'])
 def start(m):
     bot.send_message(m.chat.id, "📝 О чём мне напоминать?")
@@ -44,7 +45,9 @@ def get_days(m):
     save(data)
     bot.send_message(m.chat.id, "✅ Напоминание сохранено")
 
-# Обработчик кнопок
+# =======================
+# Callback кнопок
+# =======================
 @bot.callback_query_handler(func=lambda c: c.data in ["done", "delay10"])
 def callback(c):
     uid = str(c.message.chat.id)
@@ -71,23 +74,40 @@ def callback(c):
             threading.Thread(target=delayed_send).start()
     save(data)
 
-# Функция отправки напоминания
+# =======================
+# Функция отправки напоминания с кнопками
+# =======================
 def send(bot, uid, reminder):
     bot.send_message(
         uid,
         f"⏰ Напоминание:\n\n{reminder['text']}",
-        reply_markup=done_delay_keyboard()
+        reply_markup=done_delay_keyboard()  # Обязательно InlineKeyboardMarkup
     )
 
     def repeat():
-        time.sleep(600)
+        time.sleep(600)  # повтор через 10 минут
         if not reminder["done"] and not reminder.get("delayed", False):
             send(bot, uid, reminder)
 
     threading.Thread(target=repeat).start()
 
-# Запуск шедулера
-start_scheduler(bot, data, send)
+# =======================
+# Шедулер проверяет время
+# =======================
+def start_scheduler():
+    def loop():
+        while True:
+            from datetime import datetime
+            now = datetime.now().strftime("%H:%M")
+            weekday = datetime.now().strftime("%A")
+            for uid, reminders in data.items():
+                for r in reminders:
+                    if r["time"] == now and weekday in r["days"] and not r["done"]:
+                        send(bot, int(uid), r)
+            time.sleep(60)
+    threading.Thread(target=loop, daemon=True).start()
 
-print("Бот запущен")
+start_scheduler()
+
+print("Бот запущен с кнопками")
 bot.infinity_polling()
