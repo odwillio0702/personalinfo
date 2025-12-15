@@ -1,21 +1,18 @@
-
-import time
 import threading
-from datetime import datetime
+import time
 from keyboards import done_delay_keyboard
-import threading
-import time
 
-def send(bot, uid, reminder):
-    bot.send_message(
-        uid,
-        f"⏰ Напоминание:\n\n{reminder['text']}",
-        reply_markup=done_delay_keyboard()  # используем новую клавиатуру с кнопками
-    )
+def start_scheduler(bot, data, send_func):
+    def loop():
+        while True:
+            from datetime import datetime
+            now = datetime.now().strftime("%H:%M")
+            weekday = datetime.now().strftime("%A")
 
-    def repeat():
-        time.sleep(600)  # 10 минут
-        if not reminder["done"] and not reminder.get("delayed", False):
-            send(bot, uid, reminder)
+            for uid, reminders in data.items():
+                for r in reminders:
+                    if r["time"] == now and weekday in r["days"] and not r["done"]:
+                        send_func(bot, int(uid), r)
+            time.sleep(60)
 
-    threading.Thread(target=repeat).start()
+    threading.Thread(target=loop, daemon=True).start()
