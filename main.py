@@ -2,7 +2,7 @@ import os
 import telebot
 import threading
 import time
-from datetime import datetime, timedelta
+from datetime import datetime
 import json
 
 # -----------------------
@@ -31,69 +31,69 @@ def save_data(d):
         json.dump(d, f)
 
 data = load_data()
-temp = {}
 
 # -----------------------
-# Создание напоминания
+# Старт
 # -----------------------
 @bot.message_handler(commands=["start"])
 def start(m):
-    bot.send_message(m.chat.id, "📝 О чём напоминать?")
-    temp[m.chat.id] = {}
-    bot.register_next_step_handler(m, get_text)
+    bot.send_message(
+        m.chat.id,
+        "👋 Привет! Я твой бот-напоминалка.\n\n"
+        "Команды:\n"
+        "/schedule <текст> <HH:MM> <дни через запятую> — создать напоминание\n"
+        "   Пример: /schedule Принять таблетку 12:00 Mon,Tue,Wed,Thu,Fri\n"
+        "/list — показать все напоминания\n"
+        "/done — отметить все активные как выполненные\n"
+        "/delay <минут> — отложить все активные\n"
+        "/delete <номер> — удалить конкретное напоминание\n"
+        "/edit <номер> — изменить конкретное напоминание"
+    )
 
-def get_text(m):
-    temp[m.chat.id]["text"] = m.text
-    bot.send_message(m.chat.id, "⏰ Время (HH:MM, 24h)? Например 14:30")
-    bot.register_next_step_handler(m, get_time)
-
-def get_time(m):
-    text = m.text.strip()
-    try:
-        h, minute = map(int, text.split(":"))
-        if not (0 <= h < 24 and 0 <= minute < 60):
-            raise ValueError
-        temp[m.chat.id]["time"] = f"{h:02d}:{minute:02d}"
-        bot.send_message(
-            m.chat.id,
-            "📅 Дни (Mon,Tue,Wed,Thu,Fri,Sat,Sun) через запятую.\n"
-            "Пример: Mon,Wed,Fri"
-        )
-        bot.register_next_step_handler(m, get_days)
-    except:
-        bot.send_message(m.chat.id, "❌ Неверный формат времени! Попробуй ещё раз (HH:MM)")
-        bot.register_next_step_handler(m, get_time)
-
-def get_days(m):
-    valid_days = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"}
-    days = [d.strip() for d in m.text.split(",")]
-    if not all(d in valid_days for d in days):
-        bot.send_message(m.chat.id, "❌ Ошибка! Дни должны быть через запятую, пример: Mon,Wed,Fri")
-        bot.register_next_step_handler(m, get_days)
-        return
+# -----------------------
+# Создание напоминания одной командой
+# -----------------------
+@bot.message_handler(commands=["schedule"])
+def schedule_cmd(m):
     uid = str(m.chat.id)
+    parts = m.text.split(maxsplit=3)
+    if len(parts) < 4:
+        bot.send_message(m.chat.id, "❌ Используй: /schedule <текст> <HH:MM> <дни через запятую>")
+        return
+    text = parts[1]
+    time_part = parts[2]
+    days_part = parts[3]
+
+    # Проверка времени
+    try:
+        h,mn = map(int, time_part.split(":"))
+        if not (0 <= h < 24 and 0 <= mn < 60):
+            raise ValueError
+    except:
+        bot.send_message(m.chat.id, "❌ Неверное время! Используй формат HH:MM")
+        return
+
+    # Проверка дней
+    valid_days = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"}
+    days = [d.strip() for d in days_part.split(",")]
+    if not all(d in valid_days for d in days):
+        bot.send_message(m.chat.id, "❌ Ошибка с днями! Пример: Mon,Wed,Fri")
+        return
+
     reminder = {
-        "text": temp[m.chat.id]["text"],
-        "time": temp[m.chat.id]["time"],
+        "text": text,
+        "time": f"{h:02d}:{mn:02d}",
         "days": days,
         "done": False,
         "delayed": False
     }
+
     data.setdefault(uid, []).append(reminder)
     save_data(data)
-    bot.send_message(
-        m.chat.id,
-        "✅ Напоминание сохранено!\n"
-        "Команды:\n"
-        "/list — показать все напоминания\n"
-        "/done — отметить как выполненное\n"
-        "/delay <минут> — отложить\n"
-        "/delete <номер> — удалить напоминание\n"
-        "/edit <номер> — изменить напоминание"
-    )
+    bot.send_message(m.chat.id, f"✅ Напоминание создано: {text} в {h:02d}:{mn:02d} на {','.join(days)}")
 
 # -----------------------
-# Команды
+# Команды управления
 # -----------------------
 @bot.message_handler(commands=["list"])
 def list_reminders(m):
@@ -117,8 +117,7 @@ def mark_done(m):
             r["done"] = True
             found = True
     save_data(data)
-    msg = "🎉 Все активные напоминания отмечены как выполненные!" if found else "ℹ️ Нет активных напоминаний."
-    bot.send_message(m.chat.id, msg)
+    bot.send_message(m.chat.id, "🎉 Все активные напоминания отмечены как выполненные!" if found else "ℹ️ Нет активных напоминаний.")
 
 @bot.message_handler(commands=["delay"])
 def delay(m):
@@ -137,8 +136,8 @@ def delay(m):
                 if not rem["done"]:
                     send_reminder(chat_id, rem)
             threading.Thread(target=delayed_send).start()
-    bot.send_message(m.chat.id, f"⏰ Все активные напоминания отложены на {minutes} минут")
     save_data(data)
+    bot.send_message(m.chat.id, f"⏰ Все активные напоминания отложены на {minutes} минут")
 
 @bot.message_handler(commands=["delete"])
 def delete_reminder(m):
@@ -182,7 +181,7 @@ def save_edit(m, idx):
 # -----------------------
 def send_reminder(uid, reminder):
     bot.send_message(uid, f"⏰ Напоминание:\n\n{reminder['text']}\n"
-                          f"Используй команды:\n/done — я сделал\n/delay <минут> — отложить")
+                          f"Команды:\n/done — я сделал\n/delay <минут> — отложить")
     def repeat():
         time.sleep(600)
         if not reminder["done"] and not reminder.get("delayed", False):
@@ -215,5 +214,5 @@ def start_scheduler():
     threading.Thread(target=loop, daemon=True).start()
 
 start_scheduler()
-print("Бот запущен! Полный функционал: /list, /done, /delay, /delete, /edit")
+print("Бот запущен! Используем команду /schedule для быстрого создания напоминаний.")
 bot.infinity_polling()
