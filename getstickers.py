@@ -1,7 +1,7 @@
 import telebot
 import json
 
-BOT_TOKEN = "ТВОЙ_БОТ_ТОКЕН"  # вставь сюда токен
+BOT_TOKEN = "7534968024:AAGzt6dSrfXJvDKBahWku5ZYsYd9HNhM-XA"  # вставь сюда токен
 bot = telebot.TeleBot(BOT_TOKEN)
 
 stickers_list = []
