@@ -1,0 +1,84 @@
+/* Общий фон и шрифты */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e, #2e1a3f);
+    color: #e0e0ff;
+    text-align: center;
+    padding: 30px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* Заголовок */
+h1 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    color: #d4b3ff;
+    text-shadow: 1px 1px 4px #000;
+}
+
+/* Форма */
+form {
+    background: rgba(40, 30, 60, 0.8);
+    padding: 20px 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+}
+
+/* Поля ввода */
+input[type="text"], input[type="time"] {
+    padding: 12px 15px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transition: 0.3s;
+}
+
+input[type="text"]:focus, input[type="time"]:focus {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Кнопка */
+button {
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 12px;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(135deg, #8a2be2, #4b0082);
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+button:hover {
+    background: linear-gradient(135deg, #4b0082, #8a2be2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+/* Вывод сообщений */
+#output {
+    margin-top: 20px;
+    font-size: 1rem;
+    color: #b0b0ff;
+    min-height: 20px;
+}
+
+/* Адаптив для мобильных */
+@media screen and (max-width: 400px) {
+    form { width: 90%; padding: 15px; }
+    h1 { font-size: 1.8rem; }
+}
