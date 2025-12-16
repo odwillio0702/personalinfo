@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reminder Web App</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>🕒 Reminder Web App</h1>
+<form id="reminderForm">
+  <input type="text" id="text" placeholder="Текст напоминания" required>
+  <input type="time" id="time" required>
+  <input type="text" id="days" placeholder="Дни через запятую, например Mon,Tue" required>
+  <button type="submit">Создать напоминание</button>
+</form>
+<div id="output"></div>
+<script src="script.js"></script>
+</body>
+</html>
