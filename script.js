@@ -24,8 +24,8 @@ buttons.forEach(btn => {
 pages[0].classList.add("active");
 buttons[0].classList.add("active");
 
-// Проверка User ID (только для тебя)
-const MY_ID = 6342709681; // Твой Telegram ID
+// Только ты можешь менять фото
+const MY_ID = 6342709681; // <- Вставь свой Telegram ID
 if(tg.initDataUnsafe.user.id === MY_ID){
     changePhotoBtn.style.display = 'inline-block';
 } else {
@@ -43,7 +43,7 @@ photoInput.onchange = () => {
         const reader = new FileReader();
         reader.onload = (e) => {
             profilePic.src = e.target.result;
-            // Тут можно добавить отправку фото боту для сохранения
+            // Здесь можно добавить отправку фото боту для сохранения на сервер
         };
         reader.readAsDataURL(file);
     }
