@@ -2,7 +2,7 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 20px;
-    background: url('https://i.pinimg.com/564x/5q/i2/6I/5qi26IegA.jpg') no-repeat center center fixed;
+    background: url('https://i.imgur.com/M8qR1yZ.jpeg') no-repeat center center fixed;
     background-size: cover;
     color: #fff;
 }
@@ -31,7 +31,7 @@ body {
 }
 
 .nav-btn:hover, .nav-btn.active {
-    background: #7f5cff;
+    background: rgba(127, 92, 255, 0.8);
     transform: scale(1.05);
 }
 
@@ -78,7 +78,7 @@ body {
 }
 
 .change-btn:hover {
-    background: #7f5cff;
+    background: rgba(127, 92, 255, 0.8);
 }
 
 .links-list {
