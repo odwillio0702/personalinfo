@@ -1,33 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width">
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<title>Напоминалка</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<input id="text" placeholder="Что сделать"><br><br>
+<input id="text" placeholder="Что сделать?"><br><br>
 <input id="time" type="time"><br><br>
-<input id="days" placeholder="mon,tue,wed"><br><br>
+<input id="days" placeholder="mon,tue,wed" readonly><br><br>
 
-<button onclick="send()">Создать</button>
+<div class="days-grid">
+    <div class="day" data-day="mon">Пн</div>
+    <div class="day" data-day="tue">Вт</div>
+    <div class="day" data-day="wed">Ср</div>
+    <div class="day" data-day="thu">Чт</div>
+    <div class="day" data-day="fri">Пт</div>
+    <div class="day" data-day="sat">Сб</div>
+    <div class="day" data-day="sun">Вс</div>
+</div>
 
-<script>
-const tg = window.Telegram.WebApp;
-tg.ready();
+<div class="quick">
+    <div id="weekdays">Будни</div>
+    <div id="alldays">Каждый день</div>
+</div>
 
-function send() {
-  const data = {
-    text: document.getElementById("text").value,
-    time: document.getElementById("time").value,
-    days: document.getElementById("days").value
-  };
+<button id="submit">Создать</button>
 
-  tg.sendData(JSON.stringify(data));
-  tg.close();
-}
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
