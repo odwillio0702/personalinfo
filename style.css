@@ -1,145 +1,104 @@
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-    background-image: url('https://i.imgur.com/czp4xql.jpeg');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+const tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+const buttons = document.querySelectorAll(".nav-btn");
+const pages = document.querySelectorAll(".page");
+const profilePic = document.getElementById("profilePic");
+const changePhotoBtn = document.getElementById("changePhotoBtn");
+const photoInput = document.getElementById("photoInput");
+
+// Переключение страниц
+buttons.forEach(btn => {
+    btn.onclick = () => {
+        const pageId = btn.dataset.page;
+        pages.forEach(p => p.classList.remove("active"));
+        document.getElementById(pageId).classList.add("active");
+
+        buttons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+    }
+});
+
+// Показать первую страницу
+pages[0].classList.add("active");
+buttons[0].classList.add("active");
+
+// Только ты можешь менять фото
+const MY_ID = 6342709681; // <- Вставь свой Telegram ID
+if(tg.initDataUnsafe.user.id === MY_ID){
+    changePhotoBtn.style.display = 'inline-block';
+} else {
+    changePhotoBtn.style.display = 'none';
 }
 
-.container {
-    width: 90%;
-    max-width: 500px;
-    text-align: center;
-    position: relative;
-    z-index: 1;
+// Изменение фото
+changePhotoBtn.onclick = () => {
+    photoInput.click();
+};
+
+photoInput.onchange = () => {
+    const file = photoInput.files[0];
+    if(file){
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            profilePic.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+// ------------------ Снег ------------------
+const canvas = document.getElementById('snowCanvas');
+const ctx = canvas.getContext('2d');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let snowflakes = [];
+
+function createSnowflakes() {
+    for(let i=0; i<100; i++){
+        snowflakes.push({
+            x: Math.random()*canvas.width,
+            y: Math.random()*canvas.height,
+            radius: Math.random()*3 + 1,
+            speed: Math.random()*1 + 0.5
+        });
+    }
 }
 
-.navbar {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 25px;
+function drawSnowflakes() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    snowflakes.forEach(f => {
+        ctx.moveTo(f.x, f.y);
+        ctx.arc(f.x, f.y, f.radius, 0, Math.PI*2);
+    });
+    ctx.fill();
+    moveSnowflakes();
 }
 
-.nav-btn {
-    flex: 1;
-    margin: 0 5px;
-    padding: 12px 0;
-    border-radius: 20px;
-    border: none;
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s ease-in-out;
-    backdrop-filter: blur(8px);
+function moveSnowflakes() {
+    snowflakes.forEach(f => {
+        f.y += f.speed;
+        if(f.y > canvas.height){
+            f.y = 0;
+            f.x = Math.random()*canvas.width;
+        }
+    });
 }
 
-.nav-btn:hover, .nav-btn.active {
-    background: rgba(127, 92, 255, 0.8);
-    transform: scale(1.08);
+function animateSnow() {
+    drawSnowflakes();
+    requestAnimationFrame(animateSnow);
 }
 
-.pages {
-    position: relative;
-}
+window.addEventListener('resize', ()=>{
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
 
-.page {
-    display: none;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.4s, transform 0.4s;
-}
-
-.page.active {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.card {
-    padding: 25px;
-    border-radius: 25px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-    margin-bottom: 25px;
-    transition: transform 0.3s;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.profile-pic {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    margin-bottom: 15px;
-    border: 3px solid rgba(255,255,255,0.3);
-    object-fit: cover;
-    transition: transform 0.3s;
-}
-
-.profile-pic:hover {
-    transform: scale(1.05);
-}
-
-.change-btn {
-    padding: 10px 20px;
-    border-radius: 15px;
-    border: none;
-    background: rgba(255,255,255,0.15);
-    color: #fff;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.change-btn:hover {
-    background: rgba(127, 92, 255, 0.8);
-    transform: scale(1.05);
-}
-
-.links-list {
-    list-style: none;
-    padding: 0;
-}
-
-.links-list li {
-    margin: 12px 0;
-}
-
-.links-list a {
-    text-decoration: none;
-    color: #7f5cff;
-    font-weight: bold;
-    padding: 6px 12px;
-    border-radius: 12px;
-    transition: 0.3s;
-    display: inline-block;
-    backdrop-filter: blur(5px);
-    background: rgba(255,255,255,0.05);
-}
-
-.links-list a:hover {
-    color: #fff;
-    background: rgba(127, 92, 255, 0.8);
-}
-
-#snowCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 0;
-}
+createSnowflakes();
+animateSnow();
