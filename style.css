@@ -2,7 +2,8 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 20px;
-    background: #121212;
+    background: url('https://i.pinimg.com/564x/5q/i2/6I/5qi26IegA.jpg') no-repeat center center fixed;
+    background-size: cover;
     color: #fff;
 }
 
@@ -56,6 +57,7 @@ body {
     backdrop-filter: blur(10px);
     box-shadow: 0 8px 32px rgba(0,0,0,0.5);
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .profile-pic {
@@ -63,6 +65,20 @@ body {
     height: 120px;
     border-radius: 50%;
     margin-bottom: 15px;
+}
+
+.change-btn {
+    padding: 8px 15px;
+    border-radius: 10px;
+    border: none;
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.change-btn:hover {
+    background: #7f5cff;
 }
 
 .links-list {
