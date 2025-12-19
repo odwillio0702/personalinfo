@@ -4,18 +4,16 @@ from telebot import types
 BOT_TOKEN = "8485092572:AAHIdjrrXBOaIPD6-wN17cXtxleHYOWxJiw"
 bot = telebot.TeleBot(BOT_TOKEN)
 
-# ================== Команды ==================
-@bot.message_handler(commands=['start'])
-def start(message):
-    keyboard = types.InlineKeyboardMarkup()
-    # Кнопка для открытия Mini App
-    web_app = types.WebAppInfo(url="web_app=WebAppInfo(
-    url="https://brilliant-licorice-c5ff84.netlify.app"
-)")
-    button = types.InlineKeyboardButton(text="Открыть приложение", web_app=web_app)
-    keyboard.add(button)
-    
-    bot.send_message(message.chat.id, "!?/$%??!", reply_markup=keyboard)
+from telebot.types import WebAppInfo, ReplyKeyboardMarkup, KeyboardButton
 
-# ================== Старт бота ==================
-bot.infinity_polling()
+markup = ReplyKeyboardMarkup(resize_keyboard=True)
+markup.add(
+    KeyboardButton(
+        "Открыть профиль",
+        web_app=WebAppInfo(
+            url="https://odwillio0702.github.io/telegram-schedulebot/"
+        )
+    )
+)
+
+bot.send_message(chat_id, "Жми 👇", reply_markup=markup)
