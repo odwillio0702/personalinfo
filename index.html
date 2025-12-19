@@ -1,68 +1,73 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini App</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile App</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div class="fog"></div>
-
-<div class="container">
+  <!-- Простая горизонтальная гирлянда -->
+  <div class="simple-garland">
+    <div class="light" style="--color:#ff0000;"></div>
+    <div class="light" style="--color:#ff8000;"></div>
+    <div class="light" style="--color:#ffff00;"></div>
+    <div class="light" style="--color:#00ff00;"></div>
+    <div class="light" style="--color:#00ffff;"></div>
+    <div class="light" style="--color:#0000ff;"></div>
+    <div class="light" style="--color:#ff00ff;"></div>
+  </div>
 
   <!-- Профиль -->
-  <div class="card fade-in">
-      <img src="https://i.imgur.com/Atr1fNh.jpeg" alt="Фото" class="profile-pic">
-      <h2>@"</h2>
-      <p>???</p>
+  <div class="profile-card fade-in">
+    <img src="https://i.imgur.com/Atr1fNh.jpeg" alt="Profile Photo" class="profile-photo">
+    <h1>@”</h1>
+    <p>???</p>
   </div>
 
-  <!-- Соцсети -->
-  <div class="card fade-in">
+  <!-- Соцсети и проекты -->
+  <div class="info-blocks fade-in">
+    <div class="info-block">
       <h2>Соцсети</h2>
-      <div class="links-container">
-          <a href="https://www.tiktok.com/@odwillio" target="_blank">TikTok</a>
-          <a href="!" target="_blank">Telegram</a>
-          <a href="!" target="_blank">Instagram</a>
-          <a href="https://github.com/odwillio0702" target="_blank">GitHub</a>
-          <a href="discord://odwillio" target="_blank">Discord</a>
-      </div>
+      <a href="https://www.tiktok.com/@odwillio0702" target="_blank">TikTok</a>
+      <a href="https://t.me/!" target="_blank">Telegram</a>
+      <a href="https://www.instagram.com/!" target="_blank">Instagram</a>
+      <a href="https://github.com/odwillio0702" target="_blank">GitHub</a>
+    </div>
+    <div class="info-block">
+      <h2>Проекты</h2>
+      <p>soon...</p>
+      <p>soon...</p>
+      <p>soon...</p>
+      <p>soon...</p>
+      <p>soon...</p>
+    </div>
   </div>
 
-  <!-- Фото-блоки одинаково -->
-  <div class="card fade-in">
+  <!-- Фото-блоки -->
+  <div class="photo-blocks">
+    <div class="card fade-in">
       <img src="https://i.imgur.com/9uTcwgl.jpeg" class="info-photo">
       <p>soon...</p>
-  </div>
-
-  <div class="card fade-in">
+    </div>
+    <div class="card fade-in">
       <img src="https://i.imgur.com/ZXtiu88.jpeg" class="info-photo">
       <p>soon...</p>
-  </div>
-
-  <div class="card fade-in">
+    </div>
+    <div class="card fade-in">
       <img src="https://i.imgur.com/iJKCymK.jpeg" class="info-photo">
       <p>soon...</p>
-  </div>
-
-  <div class="card fade-in">
+    </div>
+    <div class="card fade-in">
       <img src="https://i.imgur.com/DaYAg8w.jpeg" class="info-photo">
       <p>soon...</p>
-  </div>
-
-  <div class="card fade-in">
+    </div>
+    <div class="card fade-in">
       <img src="https://i.imgur.com/fjkzXuC.jpeg" class="info-photo">
       <p>soon...</p>
+    </div>
   </div>
 
-  <!-- Финальный блок -->
-  <div class="card fade-in">
-      <img src="https://i.imgur.com/M8qR1yZ.jpeg" class="info-photo">
-      <p>soon...</p>
-  </div>
-
-</div>
 </body>
+<script src="script.js"></script>
 </html>
