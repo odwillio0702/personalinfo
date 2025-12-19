@@ -83,3 +83,38 @@ body {
     margin: 8px 0 0 0;
     font-size: 16px;
 }
+/* ---------- Дополнения ---------- */
+
+/* плавная прокрутка */
+body {
+    scroll-behavior: smooth;
+}
+
+/* hover эффекты: glow и небольшое увеличение */
+.card {
+    transition: all 0.5s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 0 20px rgba(127, 92, 255, 0.7);
+    transform: translateY(-5px) scale(1.02);
+}
+
+/* ссылки соцсетей при hover */
+.links-container a {
+    transition: all 0.3s ease;
+}
+
+.links-container a:hover {
+    background: rgba(127, 92, 255, 0.3);
+    transform: scale(1.05);
+}
+
+/* партиклы / туман */
+.particles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
