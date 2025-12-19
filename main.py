@@ -1,19 +1,46 @@
 import telebot
-from telebot import types
-
-BOT_TOKEN = "8485092572:AAHIdjrrXBOaIPD6-wN17cXtxleHYOWxJiw"
-bot = telebot.TeleBot(BOT_TOKEN)
-
 from telebot.types import WebAppInfo, ReplyKeyboardMarkup, KeyboardButton
 
-markup = ReplyKeyboardMarkup(resize_keyboard=True)
-markup.add(
-    KeyboardButton(
-        "Открыть профиль",
-        web_app=WebAppInfo(
-            url="https://odwillio0702.github.io/telegram-schedulebot/"
+# -------------------------------
+# ВАШИ ТОКЕНЫ
+BOT_TOKEN = "ВАШ_BOT_TOKEN"
+# -------------------------------
+
+bot = telebot.TeleBot(BOT_TOKEN)
+
+# -------------------------------
+# КОМАНДА /start
+@bot.message_handler(commands=['start'])
+def start(message):
+    markup = ReplyKeyboardMarkup(resize_keyboard=True)
+
+    # Кнопка открытия WebApp
+    markup.add(
+        KeyboardButton(
+            "👤 Открыть профиль",
+            web_app=WebAppInfo(
+                url="https://odwillio0702.github.io/telegram-schedulebot/"
+            )
         )
     )
-)
 
-bot.send_message(chat_id, "Жми 👇", reply_markup=markup)
+    bot.send_message(
+        message.chat.id,
+        "Привет! Жми кнопку ниже 👇 чтобы открыть твой профиль",
+        reply_markup=markup
+    )
+
+# -------------------------------
+# Пример простой команды
+@bot.message_handler(commands=['help'])
+def help_cmd(message):
+    bot.send_message(
+        message.chat.id,
+        "Список команд:\n/start — открыть профиль\n/help — показать это сообщение"
+    )
+
+# -------------------------------
+# Запуск бота
+if __name__ == "__main__":
+    print("Бот запущен...")
+    bot.infinity_polling()
