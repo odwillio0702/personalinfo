@@ -119,3 +119,32 @@ body {
     pointer-events: none;
     z-index: 0;
 }
+/* ---------- Гирлянда ---------- */
+.garland {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 10px 0;
+    z-index: 5;
+}
+
+.light {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #ff0;
+    box-shadow: 0 0 8px #ff0;
+    animation: blink 1.5s infinite alternate;
+    animation-delay: calc(var(--i) * 0.2s);
+}
+
+@keyframes blink {
+    0% { opacity: 0.2; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+    100% { opacity: 0.2; transform: scale(0.8); }
+}
