@@ -1,4 +1,4 @@
-// ---------------- Fade-in ----------------
+// Fade-in при скролле
 const faders = document.querySelectorAll('.fade-in');
 
 const appearOptions = {
