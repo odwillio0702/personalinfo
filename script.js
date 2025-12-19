@@ -1,39 +1,35 @@
+
 const tg = window.Telegram.WebApp;
 tg.ready();
+tg.expand();
 
 const SERVER_URL = "https://telegram-schedulebot.vercel.app/";
 
-const form = document.getElementById("reminderForm");
-const output = document.getElementById("output");
 const daysInput = document.getElementById("days");
+const output = document.getElementById("output");
 
-const selectedDays = new Set();
+let selected = [];
 
-document.querySelectorAll(".day").forEach(btn => {
-    btn.addEventListener("click", () => {
-        const day = btn.dataset.day;
-
-        if (selectedDays.has(day)) {
-            selectedDays.delete(day);
-            btn.classList.remove("active");
+document.querySelectorAll(".day").forEach(el => {
+    el.onclick = () => {
+        const d = el.dataset.day;
+        if (selected.includes(d)) {
+            selected = selected.filter(x => x !== d);
+            el.classList.remove("active");
         } else {
-            selectedDays.add(day);
-            btn.classList.add("active");
+            selected.push(d);
+            el.classList.add("active");
         }
-
-        daysInput.value = [...selectedDays].join(",");
-        tg.HapticFeedback.impactOccurred("light");
-    });
+        daysInput.value = selected.join(",");
+    };
 });
 
-function setDays(days) {
-    selectedDays.clear();
-    document.querySelectorAll(".day").forEach(btn => {
-        const on = days.includes(btn.dataset.day);
-        btn.classList.toggle("active", on);
-        if (on) selectedDays.add(btn.dataset.day);
+function setDays(arr) {
+    selected = arr;
+    document.querySelectorAll(".day").forEach(el => {
+        el.classList.toggle("active", arr.includes(el.dataset.day));
     });
-    daysInput.value = days.join(",");
+    daysInput.value = arr.join(",");
 }
 
 document.getElementById("weekdays").onclick = () =>
@@ -42,34 +38,22 @@ document.getElementById("weekdays").onclick = () =>
 document.getElementById("alldays").onclick = () =>
     setDays(["mon","tue","wed","thu","fri","sat","sun"]);
 
-form.addEventListener("submit", async e => {
-    e.preventDefault();
-
-    if (!daysInput.value) {
+document.getElementById("submit").onclick = async () => {
+    if (!selected.length) {
         output.innerText = "❌ Выбери дни";
         return;
     }
 
-    const payload = {
-        chat_id: tg.initDataUnsafe.user.id,
-        text: text.value,
-        time: time.value,
-        days: daysInput.value
-    };
+    const msg = `/schedule ${text.value} ${time.value} ${selected.join(",")}`;
 
-    const res = await fetch(SERVER_URL, {
+    await fetch(SERVER_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({
+            chat_id: tg.initDataUnsafe.user.id,
+            text: msg
+        })
     });
 
-    if (res.ok) {
-        output.innerText = "✅ Напоминание создано";
-        form.reset();
-        selectedDays.clear();
-        document.querySelectorAll(".day").forEach(b => b.classList.remove("active"));
-        daysInput.value = "";
-    } else {
-        output.innerText = "❌ Ошибка";
-    }
-});
+    output.innerText = "✅ Сохранено";
+};
