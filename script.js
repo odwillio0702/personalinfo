@@ -39,3 +39,10 @@ form.addEventListener("submit", async (e) => {
         output.innerText = "❌ Сервер недоступен";
     }
 });
+const daysInput = document.getElementById("days");
+const weekdaysBtn = document.getElementById("weekdaysBtn");
+
+weekdaysBtn.addEventListener("click", () => {
+    daysInput.value = "mon,tue,wed,thu,fri";
+    tg.HapticFeedback.impactOccurred("light");
+});
