@@ -1,23 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reminder Web App</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Reminder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>🕒 Reminder Web App</h1>
-<form id="reminderForm">
-  <input type="text" id="text" placeholder="Текст напоминания" required>
-  <input type="time" id="time" required>
-  <input type="text" id="days" placeholder="Дни через запятую, например Mon,Tue" required>
-    <button type="button" id="weekdaysBtn" class="days-btn">
-    Будние дни
-</button>
-  <button type="submit">Создать напоминание</button>
-</form>
-<div id="output"></div>
+
+<div class="card">
+    <h1>⏰ Напоминание</h1>
+
+    <form id="reminderForm">
+        <input id="text" placeholder="Что нужно сделать?" required>
+
+        <input id="time" type="time" required>
+
+        <input id="days" placeholder="mon,tue,wed" readonly>
+
+        <div class="days-grid">
+            <button type="button" class="day" data-day="mon">Пн</button>
+            <button type="button" class="day" data-day="tue">Вт</button>
+            <button type="button" class="day" data-day="wed">Ср</button>
+            <button type="button" class="day" data-day="thu">Чт</button>
+            <button type="button" class="day" data-day="fri">Пт</button>
+            <button type="button" class="day" data-day="sat">Сб</button>
+            <button type="button" class="day" data-day="sun">Вс</button>
+        </div>
+
+        <div class="quick-buttons">
+            <button type="button" id="weekdays">Будни</button>
+            <button type="button" id="alldays">Каждый день</button>
+        </div>
+
+        <button class="submit">Создать</button>
+    </form>
+
+    <div id="output"></div>
+</div>
+
 <script src="script.js"></script>
 </body>
 </html>
