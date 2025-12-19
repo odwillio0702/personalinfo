@@ -40,12 +40,12 @@ canvas.height = window.innerHeight;
 let snowflakes = [];
 
 function createSnowflakes() {
-    for(let i=0; i<100; i++){
+    for(let i=0; i<150; i++){
         snowflakes.push({
             x: Math.random()*canvas.width,
             y: Math.random()*canvas.height,
-            radius: Math.random()*3 + 1,
-            speed: Math.random()*1 + 0.5
+            radius: Math.random()*4 + 1,
+            speed: Math.random()*1.5 + 0.5
         });
     }
 }
