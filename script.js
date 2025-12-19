@@ -9,14 +9,14 @@ document.querySelectorAll(".day").forEach(el => {
     el.onclick = () => {
         const d = el.dataset.day;
         if (selected.includes(d)) {
-            selected = selected.filter(x => x!==d);
+            selected = selected.filter(x => x !== d);
             el.classList.remove("active");
         } else {
             selected.push(d);
             el.classList.add("active");
         }
         daysInput.value = selected.join(",");
-    }
+    };
 });
 
 function setDays(arr){
@@ -34,6 +34,11 @@ document.getElementById("alldays").onclick = () =>
     setDays(["mon","tue","wed","thu","fri","sat","sun"]);
 
 document.getElementById("submit").onclick = () => {
+    if(!selected.length || !document.getElementById("text").value || !document.getElementById("time").value){
+        alert("Заполни все поля и выбери хотя бы один день");
+        return;
+    }
+
     const data = {
         text: document.getElementById("text").value,
         time: document.getElementById("time").value,
@@ -41,4 +46,4 @@ document.getElementById("submit").onclick = () => {
     };
     tg.sendData(JSON.stringify(data));
     tg.close();
-}
+};
