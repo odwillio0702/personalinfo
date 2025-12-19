@@ -26,7 +26,7 @@ def start(message):
 
     bot.send_message(
         message.chat.id,
-        "Привет! Жми кнопку ниже 👇 чтобы открыть твой профиль",
+        "👇",
         reply_markup=markup
     )
 
