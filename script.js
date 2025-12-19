@@ -7,44 +7,39 @@ const form = document.getElementById("reminderForm");
 const output = document.getElementById("output");
 const daysInput = document.getElementById("days");
 
-const selectedDays = new Set();
+const selected = new Set();
 
-document.querySelectorAll(".day").forEach(btn => {
+document.querySelectorAll(".days-grid button").forEach(btn => {
     btn.addEventListener("click", () => {
         const day = btn.dataset.day;
 
-        if (selectedDays.has(day)) {
-            selectedDays.delete(day);
+        if (selected.has(day)) {
+            selected.delete(day);
             btn.classList.remove("active");
         } else {
-            selectedDays.add(day);
+            selected.add(day);
             btn.classList.add("active");
         }
 
-        daysInput.value = Array.from(selectedDays).join(",");
+        daysInput.value = [...selected].join(",");
         tg.HapticFeedback.impactOccurred("light");
     });
 });
 
-document.getElementById("weekdays").onclick = () => {
-    selectDays(["mon","tue","wed","thu","fri"]);
-};
-
-document.getElementById("alldays").onclick = () => {
-    selectDays(["mon","tue","wed","thu","fri","sat","sun"]);
-};
-
-function selectDays(days) {
-    selectedDays.clear();
-    document.querySelectorAll(".day").forEach(b => b.classList.remove("active"));
-
-    days.forEach(d => {
-        selectedDays.add(d);
-        document.querySelector(`[data-day="${d}"]`).classList.add("active");
+function applyDays(days) {
+    selected.clear();
+    document.querySelectorAll(".days-grid button").forEach(b => {
+        b.classList.toggle("active", days.includes(b.dataset.day));
+        if (days.includes(b.dataset.day)) selected.add(b.dataset.day);
     });
-
     daysInput.value = days.join(",");
 }
+
+document.getElementById("weekdays").onclick = () =>
+    applyDays(["mon","tue","wed","thu","fri"]);
+
+document.getElementById("alldays").onclick = () =>
+    applyDays(["mon","tue","wed","thu","fri","sat","sun"]);
 
 form.addEventListener("submit", async e => {
     e.preventDefault();
@@ -56,22 +51,22 @@ form.addEventListener("submit", async e => {
 
     const data = {
         chat_id: tg.initDataUnsafe.user.id,
-        text: document.getElementById("text").value,
-        time: document.getElementById("time").value,
+        text: text.value,
+        time: time.value,
         days: daysInput.value
     };
 
     const res = await fetch(SERVER_URL, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
     });
 
     if (res.ok) {
         output.innerText = "✅ Напоминание создано";
         form.reset();
-        selectedDays.clear();
-        document.querySelectorAll(".day").forEach(b => b.classList.remove("active"));
+        selected.clear();
+        document.querySelectorAll(".days-grid button").forEach(b => b.classList.remove("active"));
         daysInput.value = "";
     } else {
         output.innerText = "❌ Ошибка";
