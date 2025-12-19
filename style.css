@@ -135,20 +135,20 @@ body {
 }
 
 .light {
-    width: 15px;
-    height: 15px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
-    background-color: #ff0;
-    box-shadow: 0 0 8px #ff0;
+    background-color: var(--color, #ff0);
+    box-shadow: 0 0 12px var(--color, #ff0);
     animation: blink 1.5s infinite alternate;
     animation-delay: calc(var(--i) * 0.2s);
     /* позиция по полукругу */
-    transform: translateY(calc(-50px * sin((var(--i) / 9) * 180deg)));
+    transform: translateY(calc(-70px * sin((var(--i) / 9) * 3.1416)));
 }
 
 /* Мерцание лампочек */
 @keyframes blink {
-    0% { opacity: 0.2; transform: scale(0.8) translateY(var(--y,0)); }
-    50% { opacity: 1; transform: scale(1.2) translateY(var(--y,0)); }
-    100% { opacity: 0.2; transform: scale(0.8) translateY(var(--y,0)); }
+    0% { opacity: 0.2; transform: scale(0.8) translateY(calc(-70px * sin((var(--i) / 9) * 3.1416))); }
+    50% { opacity: 1; transform: scale(1.2) translateY(calc(-70px * sin((var(--i) / 9) * 3.1416))); }
+    100% { opacity: 0.2; transform: scale(0.8) translateY(calc(-70px * sin((var(--i) / 9) * 3.1416))); }
 }
