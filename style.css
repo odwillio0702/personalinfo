@@ -1,8 +1,98 @@
-body { font-family: system-ui; background:#1a1a2e; color:white; padding:20px; }
-input { display:block; margin:6px 0; padding:10px; width:100%; border-radius:8px; border:none; }
-.days-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:5px; margin:10px 0; }
-.day { padding:8px; text-align:center; background: rgba(255,255,255,0.1); cursor:pointer; border-radius:6px; }
-.day.active { background:#7f5cff; }
-.quick { display:flex; gap:5px; margin-bottom:10px; }
-.quick div { flex:1; padding:8px; text-align:center; background: rgba(255,255,255,0.1); border-radius:6px; cursor:pointer; }
-#submit { width:100%; padding:10px; background:#7f5cff; border:none; border-radius:8px; margin-top:5px; cursor:pointer; }
+body {
+    font-family: system-ui;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    color: white;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    width: 100%;
+    max-width: 450px;
+    padding: 20px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+input {
+    display: block;
+    margin: 10px 0;
+    padding: 12px;
+    width: 100%;
+    border-radius: 12px;
+    border: none;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    transition: background 0.3s;
+}
+
+input:focus {
+    background: rgba(255, 255, 255, 0.25);
+    outline: none;
+}
+
+.days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    margin: 10px 0;
+}
+
+.day {
+    padding: 10px 0;
+    text-align: center;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+    user-select: none;
+    transition: 0.3s;
+}
+
+.day:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.day.active {
+    background: #7f5cff;
+    transform: scale(1.05);
+}
+
+.quick {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.quick div {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.quick div:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+#submit {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #7f5cff, #a86cff);
+    transition: 0.3s;
+}
+
+#submit:hover {
+    transform: scale(1.03);
+}
