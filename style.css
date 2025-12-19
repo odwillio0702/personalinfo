@@ -119,36 +119,45 @@ body {
     pointer-events: none;
     z-index: 0;
 }
-/* ---------- Полукруглая гирлянда ---------- */
+/* ---------- Полукруглая гирлянда через absolute ---------- */
 .garland {
     position: fixed;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
     width: 100%;
-    height: 150px; /* высота полукруга */
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    z-index: 5;
+    height: 150px;
     pointer-events: none;
+    z-index: 5;
 }
 
 .light {
+    position: absolute;
+    bottom: 0;
+    left: var(--left);
     width: 18px;
     height: 18px;
     border-radius: 50%;
     background-color: var(--color, #ff0);
     box-shadow: 0 0 12px var(--color, #ff0);
     animation: blink 1.5s infinite alternate;
-    animation-delay: calc(var(--i) * 0.2s);
-    /* позиция по полукругу */
-    transform: translateY(calc(-70px * sin((var(--i) / 9) * 3.1416)));
+    transform: translateY(0);
 }
+
+/* Полукруг - смещение лампочек сверху */
+.light:nth-child(1)  { top: 80px; }
+.light:nth-child(2)  { top: 70px; }
+.light:nth-child(3)  { top: 60px; }
+.light:nth-child(4)  { top: 50px; }
+.light:nth-child(5)  { top: 40px; }
+.light:nth-child(6)  { top: 40px; }
+.light:nth-child(7)  { top: 50px; }
+.light:nth-child(8)  { top: 60px; }
+.light:nth-child(9)  { top: 70px; }
+.light:nth-child(10) { top: 80px; }
 
 /* Мерцание лампочек */
 @keyframes blink {
-    0% { opacity: 0.2; transform: scale(0.8) translateY(calc(-70px * sin((var(--i) / 9) * 3.1416))); }
-    50% { opacity: 1; transform: scale(1.2) translateY(calc(-70px * sin((var(--i) / 9) * 3.1416))); }
-    100% { opacity: 0.2; transform: scale(0.8) translateY(calc(-70px * sin((var(--i) / 9) * 3.1416))); }
+    0% { opacity: 0.2; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+    100% { opacity: 0.2; transform: scale(0.8); }
 }
