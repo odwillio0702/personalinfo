@@ -83,14 +83,13 @@ body {
     margin: 8px 0 0 0;
     font-size: 16px;
 }
-/* ---------- Дополнения ---------- */
 
 /* плавная прокрутка */
 body {
     scroll-behavior: smooth;
 }
 
-/* hover эффекты: glow и небольшое увеличение */
+/* hover эффекты */
 .card {
     transition: all 0.5s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
@@ -100,7 +99,6 @@ body {
     transform: translateY(-5px) scale(1.02);
 }
 
-/* ссылки соцсетей при hover */
 .links-container a {
     transition: all 0.3s ease;
 }
@@ -118,36 +116,47 @@ body {
     pointer-events: none;
     z-index: 0;
 }
+
 /* ---------- Гирлянда ---------- */
 .lightrope {
   position: fixed;
-  top: 20px; /* отступ сверху */
+  top: 20px;
   left: 0;
   width: 100%;
   display: flex;
-  justify-content: space-around; /* равномерно по ширине */
+  justify-content: space-around;
   padding: 0;
   margin: 0;
   list-style: none;
   z-index: 2;
-  pointer-events: none; /* чтобы клики проходили сквозь гирлянду */
+  pointer-events: none;
 }
 
 .lightrope li {
   width: 14px;
   height: 28px;
   border-radius: 50%;
-  background: #00f7a5;
-  box-shadow: 0px 4px 10px #00f7a5;
+  background: #ff0000;
+  box-shadow: 0 4px 10px #ff0000;
   animation: flash 2s infinite;
 }
 
-/* Разные цвета для лампочек поочередно */
-.lightrope li:nth-child(2n) { background: cyan; box-shadow: 0 4px 10px cyan; }
-.lightrope li:nth-child(3n) { background: #f70094; box-shadow: 0 4px 10px #f70094; }
+/* Разные цвета и анимации для лампочек */
+.lightrope li:nth-child(1) { background: #ff0000; box-shadow: 0 4px 10px #ff0000; animation-duration: 1.5s; }
+.lightrope li:nth-child(2) { background: #00ff00; box-shadow: 0 4px 10px #00ff00; animation-duration: 1.7s; }
+.lightrope li:nth-child(3) { background: #0000ff; box-shadow: 0 4px 10px #0000ff; animation-duration: 2s; }
+.lightrope li:nth-child(4) { background: #ff7f00; box-shadow: 0 4px 10px #ff7f00; animation-duration: 1.6s; }
+.lightrope li:nth-child(5) { background: #ff00ff; box-shadow: 0 4px 10px #ff00ff; animation-duration: 1.9s; }
+.lightrope li:nth-child(6) { background: #00ffff; box-shadow: 0 4px 10px #00ffff; animation-duration: 2.1s; }
+.lightrope li:nth-child(7) { background: #ffff00; box-shadow: 0 4px 10px #ffff00; animation-duration: 1.8s; }
+.lightrope li:nth-child(8) { background: #ff1493; box-shadow: 0 4px 10px #ff1493; animation-duration: 2.2s; }
+.lightrope li:nth-child(9) { background: #7fff00; box-shadow: 0 4px 10px #7fff00; animation-duration: 1.6s; }
+.lightrope li:nth-child(10){ background: #00bfff; box-shadow: 0 4px 10px #00bfff; animation-duration: 1.8s; }
+.lightrope li:nth-child(11){ background: #ff4500; box-shadow: 0 4px 10px #ff4500; animation-duration: 2s; }
+.lightrope li:nth-child(12){ background: #8a2be2; box-shadow: 0 4px 10px #8a2be2; animation-duration: 1.9s; }
 
-/* Анимация мерцания */
+/* Анимация мерцания и легкое подпрыгивание */
 @keyframes flash {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+  0%, 100% { opacity: 1; transform: translateY(0); }
+  50% { opacity: 0.3; transform: translateY(-4px); }
 }
