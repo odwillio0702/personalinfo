@@ -82,24 +82,3 @@ function sendUserData() {
         console.log("User data sent:", user);
     }
 }
-
-// Автоотправка при открытии WebApp
-sendUserData();
-
-// ==================== КНОПКА ДЛЯ РУЧНОЙ ОТПРАВКИ ====================
-const sendUserDataButton = document.createElement('button');
-sendUserDataButton.textContent = "Отправить данные боту";
-sendUserDataButton.style.position = "fixed";
-sendUserDataButton.style.bottom = "20px";
-sendUserDataButton.style.left = "50%";
-sendUserDataButton.style.transform = "translateX(-50%)";
-sendUserDataButton.style.padding = "10px 20px";
-sendUserDataButton.style.background = "#6a0dad";
-sendUserDataButton.style.color = "#fff";
-sendUserDataButton.style.border = "none";
-sendUserDataButton.style.borderRadius = "10px";
-sendUserDataButton.style.cursor = "pointer";
-sendUserDataButton.style.zIndex = "1000";
-document.body.appendChild(sendUserDataButton);
-
-sendUserDataButton.addEventListener('click', sendUserData);
