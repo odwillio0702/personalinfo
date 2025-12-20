@@ -5,10 +5,156 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mini App</title>
 <link rel="stylesheet" href="style.css">
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-image: url('https://i.imgur.com/czp4xql.jpeg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    padding-top: 60px;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.fog {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(6px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.card {
+    padding: 20px;
+    border-radius: 25px;
+    background: rgba(0,0,0,0.4);
+    margin-bottom: 25px;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease;
+}
+
+.card.fade-in-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.profile-pic {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    object-fit: cover;
+}
+
+.info-photo {
+    width: 100%;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    object-fit: cover;
+}
+
+.links-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+.links-container a {
+    text-decoration: none;
+    color: #7f5cff;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.1);
+}
+
+.card p {
+    margin: 8px 0 0 0;
+    font-size: 16px;
+}
+
+/* Гирлянда */
+.lightrope {
+    text-align: center;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 10px;
+}
+
+.lightrope li {
+    list-style: none;
+    width: 15px;
+    height: 25px;
+    border-radius: 50%;
+    background: #ff0;
+    box-shadow: 0 0 10px #ff0;
+    animation: blink 1.5s infinite alternate;
+}
+
+.lightrope li:nth-child(2n) {
+    background: #0f0;
+    box-shadow: 0 0 10px #0f0;
+    animation-duration: 1s;
+}
+
+.lightrope li:nth-child(3n) {
+    background: #f00;
+    box-shadow: 0 0 10px #f00;
+    animation-duration: 2s;
+}
+
+@keyframes blink {
+    0% { opacity: 0.2; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(-5px); }
+    100% { opacity: 0.2; transform: translateY(0); }
+}
+
+/* Партиклы / туман */
+.particles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+</style>
 </head>
 <body>
 
 <div class="fog"></div>
+
+<!-- Гирлянда -->
+<ul class="lightrope">
+  <li></li><li></li><li></li><li></li>
+  <li></li><li></li><li></li><li></li>
+  <li></li><li></li><li></li><li></li>
+</ul>
 
 <div class="container">
 
@@ -31,7 +177,7 @@
       </div>
   </div>
 
-  <!-- Фото-блоки одинаково -->
+  <!-- Фото-блоки -->
   <div class="card fade-in">
       <img src="https://i.imgur.com/9uTcwgl.jpeg" class="info-photo">
       <p>soon...</p>
@@ -62,7 +208,9 @@
       <img src="https://i.imgur.com/M8qR1yZ.jpeg" class="info-photo">
       <p>soon...</p>
   </div>
-  
+
+</div>
+
 <script src="script.js"></script>
 </body>
 </html>
