@@ -14,6 +14,20 @@ ADMIN_ID = 6342709681
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
+from telebot.types import ReplyKeyboardMarkup, KeyboardButton, WebAppInfo
+
+WEBAPP_URL = "https://odwillio0702.github.io/personalinfo/"  # сюда твой сайт
+
+@bot.message_handler(commands=['start'])
+def start(message):
+    markup = ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add(
+        KeyboardButton(
+            "Открыть профиль",
+            web_app=WebAppInfo(url=WEBAPP_URL)
+        )
+    )
+    bot.send_message(message.chat.id, "Привет! Жми кнопку ниже, чтобы открыть приложение 👇", reply_markup=markup)
 
 def check_init_data(init_data: str) -> bool:
     data = dict(parse_qsl(init_data, keep_blank_values=True))
