@@ -63,16 +63,3 @@ window.addEventListener('resize', ()=>{
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 });
-const tg = window.Telegram?.WebApp;
-
-if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
-    const user = tg.initDataUnsafe.user;
-
-    tg.sendData(JSON.stringify({
-        action: "log_user",
-        id: user.id,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        username: user.username
-    }));
-}
