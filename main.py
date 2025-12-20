@@ -6,12 +6,12 @@ from telebot.types import ReplyKeyboardMarkup, KeyboardButton, WebAppInfo
 from dotenv import load_dotenv
 
 # ==============================
-# ЗАГРУЗКА ПЕРЕМЕННЫХ
+# ЗАГРУЗКА ПЕРЕМЕННЫХ ИЗ .ENV
 # ==============================
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-CHANNEL_ID = int(os.getenv("CHANNEL_ID"))  # твой приватный канал
-WEBAPP_URL = "https://odwillio0702.github.io/personalinfo/"  # твой сайт
+CHANNEL_ID = int(os.getenv("CHANNEL_ID"))  # Приватный канал, например -1001234567890
+WEBAPP_URL = "https://odwillio0702.github.io/personalinfo/"  # Ссылка на WebApp
 
 # ==============================
 # СОЗДАЁМ БОТА
@@ -39,7 +39,7 @@ def start(message):
 def handle_web_app(message):
     try:
         data = json.loads(message.web_app_data.data)
-        print("Received data:", data)  # проверка в консоли
+        print("Received data:", data)  # Проверка в консоли
 
         if data.get("action") == "log_user":
             text = (
@@ -52,7 +52,7 @@ def handle_web_app(message):
             bot.send_message(CHANNEL_ID, text)
 
     except Exception as e:
-        print("Ошибка:", e)
+        print("Ошибка при обработке данных:", e)
 
 # ==============================
 # ЗАПУСК БОТА
