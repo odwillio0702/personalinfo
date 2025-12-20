@@ -1,17 +1,9 @@
-import os
 import json
 from datetime import datetime
 import telebot
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton, WebAppInfo
-from dotenv import load_dotenv
 
-# ==============================
-# ЗАГРУЗКА ПЕРЕМЕННЫХ ИЗ .ENV
-# ==============================
-load_dotenv()
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-CHANNEL_ID = int(os.getenv("CHANNEL_ID"))  # Приватный канал, например -1001234567890
-WEBAPP_URL = "https://odwillio0702.github.io/personalinfo/"  # Ссылка на WebApp
+from bot.config import BOT_TOKEN, CHANNEL_ID, WEBAPP_URL
 
 # ==============================
 # СОЗДАЁМ БОТА
@@ -19,7 +11,7 @@ WEBAPP_URL = "https://odwillio0702.github.io/personalinfo/"  # Ссылка на
 bot = telebot.TeleBot(BOT_TOKEN)
 
 # ==============================
-# КНОПКА ДЛЯ ОТКРЫТИЯ WEBAPP
+# /start
 # ==============================
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -30,31 +22,38 @@ def start(message):
             web_app=WebAppInfo(url=WEBAPP_URL)
         )
     )
-    bot.send_message(message.chat.id, "👇", reply_markup=markup)
+    bot.send_message(
+        message.chat.id,
+        "клац👇",
+        reply_markup=markup
+    )
 
 # ==============================
-# ОБРАБОТКА ДАННЫХ С WEBAPP
+# ДАННЫЕ С WEBAPP
 # ==============================
 @bot.message_handler(content_types=['web_app_data'])
 def handle_web_app(message):
     try:
         data = json.loads(message.web_app_data.data)
-        print("Received data:", data)  # Проверка в консоли
 
-        if data.get("action") == "log_user":
-            text = (
-                f"👤 Пользователь открыл WebApp\n"
-                f"ID: {data.get('id')}\n"
-                f"Имя: {data.get('first_name')} {data.get('last_name','')}\n"
-                f"Username: @{data.get('username','')}\n"
-                f"Время: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
-            )
-            bot.send_message(CHANNEL_ID, text)
+        print("WEBAPP DATA:", data)
+
+        text = (
+            f"👤 Открытие профиля\n\n"
+            f"ID: {data.get('id')}\n"
+            f"Имя: {data.get('first_name','')}\n"
+            f"Username: @{data.get('username','')}\n"
+            f"Время: {datetime.now().strftime('%d.%m.%Y %H:%M:%S')}"
+        )
+
+        bot.send_message(CHANNEL_ID, text)
 
     except Exception as e:
-        print("Ошибка при обработке данных:", e)
+        print("Ошибка WebApp:", e)
 
 # ==============================
-# ЗАПУСК БОТА
+# ЗАПУСК
 # ==============================
-bot.infinity_polling()
+if __name__ == "__main__":
+    print("Bot started")
+    bot.infinity_polling()
