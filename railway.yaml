@@ -1,8 +1,0 @@
-services:
-  - name: bot
-    type: python
-    startCommand: python3 bot/main.py
-    env:
-      - BOT_TOKEN
-      - CHANNEL_ID
-      - WEBAPP_URL
