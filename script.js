@@ -67,18 +67,18 @@ window.addEventListener('resize', ()=>{
 
 // ==================== TELEGRAM WEBAPP ====================
 const tg = window.Telegram?.WebApp;
-const ADMIN_ID = 6342709681; // твой айди, если нужно для админки
 
-function sendUserData() {
-    if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
-        const user = tg.initDataUnsafe.user;
-        tg.sendData(JSON.stringify({
-            action: "log_user",
-            id: user.id,
-            first_name: user.first_name,
-            last_name: user.last_name || "",
-            username: user.username || ""
-        }));
-        console.log("User data sent:", user);
-    }
+if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+    const user = tg.initDataUnsafe.user;
+
+    console.log("Sending user data:", user);
+
+    // Отправляем данные автоматически при открытии WebApp
+    tg.sendData(JSON.stringify({
+        action: "log_user",
+        id: user.id,
+        first_name: user.first_name,
+        last_name: user.last_name || "",
+        username: user.username || ""
+    }));
 }
