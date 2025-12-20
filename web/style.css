@@ -1,1 +1,162 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-image: url('https://i.imgur.com/czp4xql.jpeg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+    overflow-x: hidden;
+}
 
+.fog {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(6px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.card {
+    padding: 20px;
+    border-radius: 25px;
+    background: rgba(0,0,0,0.4);
+    margin-bottom: 25px;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease;
+}
+
+.card.fade-in-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.profile-pic {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    object-fit: cover;
+}
+
+.info-photo {
+    width: 100%;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    object-fit: cover;
+}
+
+.links-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+.links-container a {
+    text-decoration: none;
+    color: #7f5cff;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.1);
+}
+
+.card p {
+    margin: 8px 0 0 0;
+    font-size: 16px;
+}
+
+/* плавная прокрутка */
+body {
+    scroll-behavior: smooth;
+}
+
+/* hover эффекты */
+.card {
+    transition: all 0.5s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 0 20px rgba(127, 92, 255, 0.7);
+    transform: translateY(-5px) scale(1.02);
+}
+
+.links-container a {
+    transition: all 0.3s ease;
+}
+
+.links-container a:hover {
+    background: rgba(127, 92, 255, 0.3);
+    transform: scale(1.05);
+}
+
+/* партиклы / туман */
+.particles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ---------- Гирлянда ---------- */
+.lightrope {
+  position: fixed;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.lightrope li {
+  width: 14px;
+  height: 28px;
+  border-radius: 50%;
+  background: #ff0000;
+  box-shadow: 0 4px 10px #ff0000;
+  animation: flash 2s infinite;
+}
+
+/* Разные цвета и анимации для лампочек */
+.lightrope li:nth-child(1) { background: #ff0000; box-shadow: 0 4px 10px #ff0000; animation-duration: 1.5s; }
+.lightrope li:nth-child(2) { background: #00ff00; box-shadow: 0 4px 10px #00ff00; animation-duration: 1.7s; }
+.lightrope li:nth-child(3) { background: #0000ff; box-shadow: 0 4px 10px #0000ff; animation-duration: 2s; }
+.lightrope li:nth-child(4) { background: #ff7f00; box-shadow: 0 4px 10px #ff7f00; animation-duration: 1.6s; }
+.lightrope li:nth-child(5) { background: #ff00ff; box-shadow: 0 4px 10px #ff00ff; animation-duration: 1.9s; }
+.lightrope li:nth-child(6) { background: #00ffff; box-shadow: 0 4px 10px #00ffff; animation-duration: 2.1s; }
+.lightrope li:nth-child(7) { background: #ffff00; box-shadow: 0 4px 10px #ffff00; animation-duration: 1.8s; }
+.lightrope li:nth-child(8) { background: #ff1493; box-shadow: 0 4px 10px #ff1493; animation-duration: 2.2s; }
+.lightrope li:nth-child(9) { background: #7fff00; box-shadow: 0 4px 10px #7fff00; animation-duration: 1.6s; }
+.lightrope li:nth-child(10){ background: #00bfff; box-shadow: 0 4px 10px #00bfff; animation-duration: 1.8s; }
+.lightrope li:nth-child(11){ background: #ff4500; box-shadow: 0 4px 10px #ff4500; animation-duration: 2s; }
+.lightrope li:nth-child(12){ background: #8a2be2; box-shadow: 0 4px 10px #8a2be2; animation-duration: 1.9s; }
+
+/* Анимация мерцания и легкое подпрыгивание */
+@keyframes flash {
+  0%, 100% { opacity: 1; transform: translateY(0); }
+  50% { opacity: 0.3; transform: translateY(-4px); }
+}
