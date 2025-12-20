@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 # ==============================
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-CHANNEL_ID = -100342569153  # твой приватный канал
+CHANNEL_ID = int(os.getenv("CHANNEL_ID"))  # твой приватный канал
 WEBAPP_URL = "https://odwillio0702.github.io/personalinfo/"  # твой сайт
 
 # ==============================
