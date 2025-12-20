@@ -63,35 +63,3 @@ window.addEventListener('resize', ()=>{
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 });
-// === TELEGRAM WEB APP INIT ===
-const tg = window.Telegram?.WebApp;
-const ADMIN_ID = 6342709681;
-
-let isAdmin = false;
-
-if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
-    const user = tg.initDataUnsafe.user;
-
-    console.log("Telegram user:", user);
-
-    if (user.id === ADMIN_ID) {
-        isAdmin = true;
-        document.body.classList.add("admin");
-        console.log("ADMIN MODE ENABLED");
-    }
-} else {
-    console.log("Opened NOT from Telegram");
-}
-
-// === ПРИМЕР: показать админ-блоки ===
-document.querySelectorAll(".admin-only").forEach(el => {
-    el.style.display = isAdmin ? "block" : "none";
-});
-function saveProfile() {
-    if (!isAdmin) return;
-
-    tg.sendData(JSON.stringify({
-        action: "save_profile",
-        text: "updated"
-    }));
-}
