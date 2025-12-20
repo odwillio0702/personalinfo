@@ -67,18 +67,39 @@ window.addEventListener('resize', ()=>{
 
 // ==================== TELEGRAM WEBAPP ====================
 const tg = window.Telegram?.WebApp;
+const ADMIN_ID = 6342709681; // твой айди, если нужно для админки
 
-if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
-    const user = tg.initDataUnsafe.user;
-
-    console.log("Sending user data:", user);
-
-    // отправляем данные в бота
-    tg.sendData(JSON.stringify({
-        action: "log_user",
-        id: user.id,
-        first_name: user.first_name,
-        last_name: user.last_name || "",
-        username: user.username || ""
-    }));
+function sendUserData() {
+    if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+        const user = tg.initDataUnsafe.user;
+        tg.sendData(JSON.stringify({
+            action: "log_user",
+            id: user.id,
+            first_name: user.first_name,
+            last_name: user.last_name || "",
+            username: user.username || ""
+        }));
+        console.log("User data sent:", user);
+    }
 }
+
+// Автоотправка при открытии WebApp
+sendUserData();
+
+// ==================== КНОПКА ДЛЯ РУЧНОЙ ОТПРАВКИ ====================
+const sendUserDataButton = document.createElement('button');
+sendUserDataButton.textContent = "Отправить данные боту";
+sendUserDataButton.style.position = "fixed";
+sendUserDataButton.style.bottom = "20px";
+sendUserDataButton.style.left = "50%";
+sendUserDataButton.style.transform = "translateX(-50%)";
+sendUserDataButton.style.padding = "10px 20px";
+sendUserDataButton.style.background = "#6a0dad";
+sendUserDataButton.style.color = "#fff";
+sendUserDataButton.style.border = "none";
+sendUserDataButton.style.borderRadius = "10px";
+sendUserDataButton.style.cursor = "pointer";
+sendUserDataButton.style.zIndex = "1000";
+document.body.appendChild(sendUserDataButton);
+
+sendUserDataButton.addEventListener('click', sendUserData);
