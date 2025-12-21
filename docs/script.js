@@ -76,6 +76,6 @@ likeBtn.addEventListener('click', () => {
         })
     }).then(res => {
         let current = parseInt(likeBtn.textContent.split(' ')[1]) || 0;
-        likeBtn.textContent = `👍 ${current + 1}`;
+        likeBtn.textContent = `❤️ ${current + 1}`;
     });
 });
