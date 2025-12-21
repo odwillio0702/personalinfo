@@ -10,7 +10,7 @@ from telebot.types import ReplyKeyboardMarkup, KeyboardButton, WebAppInfo
 # Импорты из пакета bot
 from bot.config import BOT_TOKEN, CHANNEL_ID, WEBAPP_URL
 from bot.database import init_db
-from bot.handlers import register_user, send_profile
+from bot.handlers import register_user, send_profile  # Только импорт функций
 
 # ==============================
 # Инициализация базы данных
