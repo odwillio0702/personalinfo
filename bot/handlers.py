@@ -1,25 +1,17 @@
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
-from bot.database import add_user, increment_likes, increment_views, get_user_stats
-from bot.main import bot
+from bot.database import add_user, update_views
 
-def register_user(user):
-    add_user(user.id, user.username)
-    increment_views(user.id)  # считаем, что открытие профиля = просмотр
+def register_user(user_data: dict):
+    """
+    Сохраняем или обновляем пользователя в базе данных
+    """
+    user_id = user_data.get("id")
+    first_name = user_data.get("first_name", "")
+    last_name = user_data.get("last_name", "")
+    username = user_data.get("username", "")
+    add_user(user_id, first_name, last_name, username)
 
-def send_profile(chat_id, user_id):
-    stats = get_user_stats(user_id)
-    markup = InlineKeyboardMarkup()
-    markup.add(
-        InlineKeyboardButton(f"❤️ {stats['likes']}", callback_data=f"like_{user_id}")
-    )
-    bot.send_message(chat_id, f"Профиль @{user_id}\nПросмотры: {stats['views']}", reply_markup=markup)
-
-@bot.callback_query_handler(func=lambda call: call.data.startswith("like_"))
-def handle_like(call):
-    user_id = int(call.data.split("_")[1])
-    likes = increment_likes(user_id)
-    bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id,
-                                  reply_markup=InlineKeyboardMarkup().add(
-                                      InlineKeyboardButton(f"❤️ {likes}", callback_data=f"like_{user_id}")
-                                  ))
-    bot.answer_callback_query(call.id, text="Вы поставили лайк!")
+def send_profile(user_id: int):
+    """
+    Возвращает данные профиля для веб-приложения
+    """
+    return update_views(user_id)
