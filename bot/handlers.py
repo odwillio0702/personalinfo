@@ -10,7 +10,7 @@ def send_profile(chat_id, user_id):
     stats = get_user_stats(user_id)
     markup = InlineKeyboardMarkup()
     markup.add(
-        InlineKeyboardButton(f"👍 {stats['likes']}", callback_data=f"like_{user_id}")
+        InlineKeyboardButton(f"❤️ {stats['likes']}", callback_data=f"like_{user_id}")
     )
     bot.send_message(chat_id, f"Профиль @{user_id}\nПросмотры: {stats['views']}", reply_markup=markup)
 
@@ -20,6 +20,6 @@ def handle_like(call):
     likes = increment_likes(user_id)
     bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id,
                                   reply_markup=InlineKeyboardMarkup().add(
-                                      InlineKeyboardButton(f"👍 {likes}", callback_data=f"like_{user_id}")
+                                      InlineKeyboardButton(f"❤️ {likes}", callback_data=f"like_{user_id}")
                                   ))
     bot.answer_callback_query(call.id, text="Вы поставили лайк!")
