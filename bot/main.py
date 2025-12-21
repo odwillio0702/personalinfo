@@ -1,17 +1,16 @@
 import os
 import json
 from datetime import datetime
-from flask import Flask, request
+from threading import Thread
+
+from flask import Flask
 import telebot
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton, WebAppInfo
-from config import BOT_TOKEN, CHANNEL_ID, WEBAPP_URL
-from bot.database import init_db
-from bot.handlers import register_user, send_profile
 
-if __name__ == "__main__":
-    init_db()  # создаем таблицу если нет
-    print("Bot started")
-    bot.infinity_polling()
+from .config import BOT_TOKEN, CHANNEL_ID, WEBAPP_URL
+from .database import init_db
+from .handlers import register_user, send_profile
+
 # ==============================
 # Flask
 # ==============================
@@ -21,6 +20,11 @@ app = Flask(__name__)
 # Бот
 # ==============================
 bot = telebot.TeleBot(BOT_TOKEN)
+
+# ==============================
+# Инициализация базы
+# ==============================
+init_db()
 
 # ==============================
 # /start
@@ -51,13 +55,15 @@ def handle_web_app(message):
         print("Ошибка WebApp:", e)
 
 # ==============================
-# Запуск Flask + Bot
+# Flask роут
 # ==============================
 @app.route("/")
 def home():
     return "Bot is running!"
 
+# ==============================
+# Запуск Flask + Bot
+# ==============================
 if __name__ == "__main__":
-    from threading import Thread
     Thread(target=lambda: bot.infinity_polling()).start()
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
