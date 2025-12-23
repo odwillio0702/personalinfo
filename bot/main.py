@@ -83,18 +83,55 @@ def image_to_ascii(image: Image.Image, width=80):
     return ascii_image
 
 
+from PIL import Image
+import requests
+import io
+
+# ==============================
+# ASCII генератор
+# ==============================
+
+ASCII_CHARS = "@%#*+=-:. "
+
+def image_to_ascii(image, width=80):
+    image = image.convert("L")  # в ч/б
+    w, h = image.size
+    aspect_ratio = h / w
+    new_height = int(aspect_ratio * width * 0.55)
+    image = image.resize((width, new_height))
+
+    pixels = image.getdata()
+    ascii_str = ""
+    for i, pixel in enumerate(pixels):
+        ascii_str += ASCII_CHARS[pixel * len(ASCII_CHARS) // 256]
+        if (i + 1) % width == 0:
+            ascii_str += "\n"
+
+    return ascii_str
+
+
+# ==============================
+# /ascii
+# ==============================
+@bot.message_handler(commands=['ascii'])
+def ascii_command(message):
+    bot.reply_to(message, "📸 Пришли фото")
+
+
 @bot.message_handler(content_types=['photo'])
 def handle_photo(message):
     try:
-        file_info = bot.get_file(message.photo[-1].file_id)
-        downloaded = bot.download_file(file_info.file_path)
+        file_id = message.photo[-1].file_id
+        file_info = bot.get_file(file_id)
+        file_url = f"https://api.telegram.org/file/bot{BOT_TOKEN}/{file_info.file_path}"
 
-        image = Image.open(io.BytesIO(downloaded))
+        response = requests.get(file_url)
+        image = Image.open(io.BytesIO(response.content))
+
         ascii_art = image_to_ascii(image)
 
-        # Telegram ограничение по длине сообщений
         if len(ascii_art) > 4000:
-            ascii_art = ascii_art[:4000]
+            ascii_art = ascii_art[:4000] + "\n..."
 
         bot.send_message(
             message.chat.id,
@@ -103,8 +140,8 @@ def handle_photo(message):
         )
 
     except Exception as e:
-        bot.send_message(message.chat.id, "❌ Не смог обработать изображение")
-        print("IMAGE ERROR:", e)
+        bot.reply_to(message, "❌ Ошибка обработки фото")
+        print(e)
 # ==============================
 # Запуск бота
 # ==============================
